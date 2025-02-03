@@ -15,7 +15,7 @@ class TimeoutError extends Error {
   }
 }
 
-export const timeoutError = new TimeoutError();
+const timeoutError = new TimeoutError();
 
 /**
  * Make a promise timeout after a given number of milliseconds.
@@ -23,7 +23,7 @@ export const timeoutError = new TimeoutError();
  * @param timeoutInMs - The number of milliseconds to wait before timing out.
  * @returns The result of the promise or a TimeoutError if the promise times out.
  */
-export function timeout(
+function timeout(
   promise,
   timeoutInMs
 ) {
