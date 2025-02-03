@@ -1,3 +1,4 @@
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // const { fetch: nodeFetch } = require('undici');
 
 // global.fetch = () => {
