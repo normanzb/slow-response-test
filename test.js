@@ -1,8 +1,8 @@
 // must be the first import
-const Sentry = require("@sentry/node");
-const { nodeProfilingIntegration } = require("@sentry/profiling-node");
-const { fileURLToPath } = require("node:url")
-const { dirname, resolve } = require("node:path");
+import * as Sentry from "@sentry/node";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // const { fetch: nodeFetch } = require('undici');
@@ -12,7 +12,6 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // };
 
 // console.log(111, fetch.toString());
-
 
 Sentry.init({
   dsn: "abcd",
