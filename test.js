@@ -32,5 +32,11 @@ async function benchmarkFetch() {
   }
 }
 
-// Run the benchmark
-benchmarkFetch();
+async function main() {
+  while (true) {
+    await benchmarkFetch();
+    await delay(80);
+  }
+}
+
+main();
