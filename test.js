@@ -7,6 +7,38 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // console.log(111, fetch.toString());
 
+
+class TimeoutError extends Error {
+  name = "TimedTimeoutError";
+  constructor() {
+    super("Timed out");
+  }
+}
+
+export const timeoutError = new TimeoutError();
+
+/**
+ * Make a promise timeout after a given number of milliseconds.
+ * @param promise - The promise to timeout.
+ * @param timeoutInMs - The number of milliseconds to wait before timing out.
+ * @returns The result of the promise or a TimeoutError if the promise times out.
+ */
+export function timeout(
+  promise,
+  timeoutInMs
+) {
+  const timerAbortController = new AbortController();
+  return Promise.race([
+    promise.then((v) => {
+      timerAbortController.abort();
+      return v;
+    }),
+    delay(timeoutInMs, timerAbortController.signal).then(
+      () => timeoutError
+    ),
+  ]);
+}
+
 const serverUrl = process.env.API_ORIGIN ?? 'http://localhost:3999';
 
 async function benchmarkFetch() {
@@ -29,13 +61,24 @@ async function benchmarkFetch() {
 
     console.log('Responded time:', respondedTime - fetchedTime);
   } catch (error) {
-    console.error('Error during fetch:', error.message);
+    console.log('Error during fetch:', error.message);
   }
+}
+
+async function benchmarkFetchWithTimeout() {
+  const result = await timeout(benchmarkFetch(), 1000 * 10);
+
+  if (result instanceof TimeoutError) {
+    console.log('Timeout found!');
+    return;
+  }
+
+  return result;
 }
 
 async function loop() {
   while (true) {
-    await benchmarkFetch();
+    await benchmarkFetchWithTimeout();
     await delay(80);
   }
 }
