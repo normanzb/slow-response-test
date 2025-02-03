@@ -6,11 +6,13 @@
 
 // console.log(111, fetch.toString());
 
+const serverUrl = process.env.API_ORIGIN ?? 'http://localhost:3999';
+
 async function benchmarkFetch() {
   const startTime = performance.now();
 
   try {
-    const response = await fetch('http://localhost:3999/slow-response', {
+    const response = await fetch(serverUrl + '/slow-response', {
       signal: AbortSignal.timeout(6000),
     });
 
