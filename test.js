@@ -7,6 +7,28 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // console.log(111, fetch.toString());
 
+// must be the first import
+const Sentry = require("@sentry/node");
+const { nodeProfilingIntegration } = require("@sentry/profiling-node");
+
+Sentry.init({
+  dsn: "abcd",
+  integrations: [
+    Sentry.captureConsoleIntegration({
+      levels: ["error"],
+    }),
+    Sentry.rewriteFramesIntegration({
+      root: resolve(dirname(fileURLToPath(import.meta.url)), "../../"),
+    }),
+    nodeProfilingIntegration(),
+  ],
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0,
+  environment: "development",
+  debug: true,
+  enabled: true,
+});
+
 
 class TimeoutError extends Error {
   name = "TimedTimeoutError";
