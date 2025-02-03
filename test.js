@@ -33,11 +33,17 @@ async function benchmarkFetch() {
   }
 }
 
-async function main() {
+async function loop() {
   while (true) {
     await benchmarkFetch();
     await delay(80);
   }
+}
+
+async function main() {
+  void loop();
+  void loop();
+  void loop();
 }
 
 main();
