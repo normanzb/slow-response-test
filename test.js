@@ -108,9 +108,10 @@ async function loop() {
 }
 
 async function main() {
-  void loop();
-  void loop();
-  void loop();
+  // void loop();
+  // void loop();
+  // void loop();
+  await benchmarkFetchWithTimeout();
 }
 
 main();
